@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dream# - <%= yield(:title).blank? ? 'Capture Dreams' : yield(:title) %></title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<ul class="hmenu">
+  <li> <%= link_to "Home","/"%> </li> |
+  <li> <%= link_to "Auth Sign up","/authentications"%></li> |
+  <%= render 'devise/menu/login_items' %>
+</ul>
+
+<p class="notice"><%= notice %></p>
+<p class="alert"><%= alert %></p>
+
+<%= yield %>
+
+</body>
+</html>
