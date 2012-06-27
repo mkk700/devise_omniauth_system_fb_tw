@@ -24,20 +24,12 @@ class User < ActiveRecord::Base
        self.email      = omniauth_hash['info']['email'] if email.blank?
        self.firstname  = omniauth_hash['info']['first_name'] if firstname.blank?
        self.lastname   = omniauth_hash['info']['last_name'] if lastname.blank?
-       # gender = omniauth_hash['extra']['raw_info']['gender']
-       #omniauth_hash['extra']['raw_info']['gender']
        if (omniauth_hash['extra']['raw_info']['gender'].downcase.eql?("male"))
          self.sex = '1'
        else 
          self.sex = '0'
        end
-       #self.birthday = Date.strptime(omniauth_hash.fetch('extra', {}).fetch('user_hash', {})['birthday'],'%m/%d/%Y') if omniauth_hash.fetch('extra', {}).fetch('user_hash', {})['birthday']
        self.birthday = Date.strptime(omniauth_hash['extra']['raw_info']['birthday'],'%m/%d/%Y')
-      # self.email = omniauth_hash['info']['email'] if email.blank?
-      # self.firstname = omniauth_hash['info']['first_name'] if firstname.blank?
-      # self.lastname = omniauth_hash['info']['last_name'] if lastname.blank?
-      # self.birthday = omniauth_hash['info']['birthday'] if birthday.blank?
-      authentications.build(:provider => omniauth_hash['provider'], :uid => omniauth_hash['uid'])
     else
        fullname = omniauth_hash['info']['name'].to_s.split(" ")
        if !fullname[0].nil? 
@@ -46,9 +38,8 @@ class User < ActiveRecord::Base
        if !fullname[1].nil?
          self.lastname = fullname[1]
        end
-       authentications.build(:provider => omniauth_hash['provider'], :uid => omniauth_hash['uid'])
     end
-    
+    authentications.build(:provider => omniauth_hash['provider'], :uid => omniauth_hash['uid'])      
   end
   
   def password_required?
